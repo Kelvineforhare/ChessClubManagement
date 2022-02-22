@@ -1,0 +1,78 @@
+{% extends 'base_content.html' %}
+{% block content %}
+  <div class="container" style="padding-bottom:200px">
+    <div class="row">
+      <div class="col-12">
+        <h1>Edit profile</h1>
+        <!-- Displaying the user's role -->
+        {% if user_membership %}
+          {% if user_membership.is_officer %}
+            <h3>You are an officer of this club</h3>
+          {% elif user_membership.is_member %}
+            <h3>You are a member of this club</h3>
+          {% elif user_membership.is_applicant %}
+            <h3>You are an applicant and awaiting approval</h3>
+          {% elif user_membership.is_removed_user %}
+            <h3>You have been removed from this club</h3>
+          {% endif %}
+        {% elif is_owner %}
+          <h3>You are an owner of this club</h3>
+        {% else %}
+          <h3>You are not a user of this club</h3>
+        {% endif %}
+        <form action="{% url 'profile' %}" method="post">
+          <div class="gravatar_edit">
+            <img src="{{ current_user.mini_gravatar }}" alt="Gravatar of {{ current_user.username }}" style="width:20%;margin:10px;">
+            <a href="http://gravatar.com/emails" style="vertical-align:bottom;" target="_black" class="btn btn-primary">
+              Change Your Gravatar
+            </a>
+            <!-- Display button to quit club -->
+            {% if user_membership and not user_membership.is_removed_user%}
+              <a  href="" style="vertical-align:bottom;" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#confirmation">
+                Quit Club
+              </a>
+            {% endif %}
+            <!-- Confirmation that you're leaving the club -->
+            <div class="modal" tabindex="-1" role="dialog" id="confirmation">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Are you sure?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Joining a club requires you to apply as an applicant again</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="{% url 'leave_club' club_id=current_club.id %}" type="button" class="btn btn-primary">Continue</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Confirmation that you're applying to the club -->
+            <div class="modal" tabindex="-1" role="dialog" id="confirmation2">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Apply to be an applicant?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Are you sure you want to apply to be an applicant </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% csrf_token %}
+          {% include 'partials/bootstrap_form.html' with form=form %}
+          <input type="submit" value="Update" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

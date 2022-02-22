@@ -1,0 +1,14 @@
+{% extends 'base_content.html' %}
+{% block title %}
+| Show Club
+{% endblock %}
+{% block content %}
+  <div class="container">
+      {% include 'partials/club_profile.html' %}
+  </div>
+  {% if user_membership and user_membership.is_applicant%}
+    <div style="text-align: center;">
+      <h1>You are an applicant of {{current_club.name}}!</h1>
+    </div>
+  {% endif %}
+{% endblock %}

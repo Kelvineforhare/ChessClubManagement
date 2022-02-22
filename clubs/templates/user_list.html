@@ -1,0 +1,53 @@
+{% extends 'base_content.html' %}
+{% block title %}
+| Members
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1>Club: {{current_club.name}}</h1>
+        <p>
+          <a href="{% url 'show_club' club_id=current_club.pk %}" class="btn btn-lg btn-primary">
+            Learn more...
+          </a>
+        </p>
+        <nav>
+          <!-- Show user group tabs -->
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-user" type="button" role="tab" aria-controls="nav-home" aria-selected="false">Club users</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-member" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Members</button>
+            {% if user_membership.is_officer or is_owner %}
+              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-officer" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Officers</button>
+              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-applicant" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Applicants</button>
+              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-removed_members" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Removed Members</button>
+            {% endif %}
+          </div>
+        </nav>
+        <!-- Display the users of the groups -->
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-user" role="tabpanel" aria-labelledby="nav-user-tab">
+            <h1>Club users</h1>
+            {% include 'partials/user_display.html' with membership_list=users owner_display=True %}
+          </div>
+          <div class="tab-pane fade" id="nav-member" role="tabpanel" aria-labelledby="nav-member-tab">
+            <h1>Members</h1>
+            {% include 'partials/user_display.html' with membership_list=members owner_display=False %}
+          </div>
+          <div class="tab-pane fade" id="nav-officer" role="tabpanel" aria-labelledby="nav-officer-tab">
+            <h1>Officers</h1>
+            {% include 'partials/user_display.html' with membership_list=officers owner_display=False %}
+          </div>
+          <div class="tab-pane fade" id="nav-applicant" role="tabpanel" aria-labelledby="nav-applicant-tab">
+            <h1>Applicants</h1>
+            {% include 'partials/user_display.html' with membership_list=applicants owner_display=False %}
+          </div>
+          <div class="tab-pane fade" id="nav-removed_members" role="tabpanel" aria-labelledby="nav-applicant-tab">
+            <h1>Removed Members</h1>
+            {% include 'partials/user_display.html' with membership_list=removed_members  owner_display=False %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

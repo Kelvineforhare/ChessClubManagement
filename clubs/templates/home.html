@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+| Home
+{% endblock %}
+{% block body %}
+  <div id="cover-image" style="color:black">
+    <div class="container vh-100">
+      <div class="row h-100">
+        <div class="col-12 my-auto">
+          <div class="card cover-card-bigger ">
+            <h1 class="cover-heading">Chess Club</h1>
+            <p class="cover-text">The place where all is chess</p>
+            <h4 class="cover-heading">Available clubs:</h4>
+            <div style="width: 100%; height: 200px; overflow-y: scroll; margin-bottom:10px;border: 1px solid black;margin-bottom:10px;">
+              {% for club in clubs %}
+                <div class="d-flex w-100b justify-content-between" style="border: 1px solid black;margin-bottom:10px;">
+                  <div class="d-flex w-100b">
+                    <i class="bi bi-emoji-smile-fill"></i>
+                    <h5 class="mb-1">Club: {{ club.name }}</h5>
+                  </div>
+                  <div class="d-flex w-100b">
+                    <p>
+                      <a href="{% url 'show_club' club_id=club.id %}" class="btn btn-lg btn-dark">
+                        Learn more
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            <p>
+              <a href="{% url 'sign_up' %}" class="btn btn-lg btn-dark">
+                Sign Up
+              </a>
+            </p>
+            <p>
+              <a href="{% url 'log_in' %}" class="btn btn-lg btn-dark">
+                Log In
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

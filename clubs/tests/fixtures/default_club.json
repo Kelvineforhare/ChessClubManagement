@@ -1,0 +1,12 @@
+[
+    {
+      "model": "clubs.club",
+      "pk": 1,
+      "fields": {
+        "name": "Club Chess Beasts",
+        "location": "London",
+        "description": "Best chess club in London!"
+      }
+    }
+  ]
+  

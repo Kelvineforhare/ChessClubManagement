@@ -1,0 +1,21 @@
+{% extends 'base_content.html' %}
+{% block title %}
+| Sign Up
+{% endblock %}
+{% block content %}
+  <div class="container" style="padding-bottom: 200px;">
+    <div class="row">
+      <div class="col-12">
+        <h1>Sign up</h1>
+        <form action="{% url 'sign_up' %}" method="post">
+          {% csrf_token %}
+          {% include 'partials/bootstrap_form.html' with form=form %}
+          <a href="http://gravatar.com/emails" style="vertical-align:bottom;" target="_black" class="btn btn-primary">
+            Choose Your Gravatar
+          </a>
+          <input type="submit" value="Sign up" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+<div class="row content">
+  <!-- Club profile -->
+  <div class="col-xs-12 col-lg-4 col-xl-4">
+    <div class="profile-text">
+      <h2>{{ current_club.name }}</h2>
+    </div>
+    <p><i class="bi bi-geo-alt-fill"></i>| Location |</p>
+    <p class="profile-username">{{ current_club.location }} </p>
+    <p><i class="bi bi-card-text"></i>| Description |</p>
+    <p class="profile-username">{{ current_club.description }}</p>
+    {% if user_can_apply %}
+      <form action="{% url 'apply' club_id=current_club.id %}" method="get">
+        <input type="submit" value="Apply" class="btn btn-primary">
+      </form>
+    {% endif %}
+  </div>
+  <!-- statistic -->
+  <div class="col-xs-12 col-lg-4 col-xl-4">
+    <h3>Statistics:</h3>
+    <div>
+      <text><i class="bi bi-person-check-fill"></i>  This club has</text>
+      <b style="color:brown"> {{ members|length}} </b>
+      <text> members!</text>
+    </div>
+    <div>
+      <b style="color:brown">  <i class="bi bi-person-plus-fill"></i>  {{ applicants|length }}</b>
+      <text> people are currently in the waiting list! </text>
+    </div>
+    <div>
+      <text> <i class="bi bi-hand-thumbs-up-fill"></i>  This club has</text>
+      <b style="color:brown"> {{ masters|length }} </b>
+      <text> chess masters!</text>
+    </div>
+  </div>
+  <!-- Owner profile -->
+  <div class="col-xs-12 col-lg-4 col-xl-4">
+    {% include 'partials/user_profile.html' with viewee_ownership=None user=current_club.owner user_membership=user_membership%}
+  </div>
+
+</div>

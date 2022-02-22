@@ -1,0 +1,27 @@
+<i class="bi bi-chat-right-dots-fill"></i><p class="profile-bio">Personal Statement: {{ user.personal_statement }}</p>
+<i class="bi bi-bar-chart-steps"></i><p class="profile-bio">Chess level: {{ user.get_chess_level_display }}</p>
+<p class="profile-title">Email: {{ user.username }}</p>
+
+{%if not viewee_membership.level == "0" and current_club.owner != user %}
+  <a  href="" style="vertical-align:bottom; color: aliceblue;" class="btn btn-primary" data-bs-toggle="modal"
+   data-bs-target="#conf">
+    Remove User
+  </a>
+{%endif%}
+<div class="modal" tabindex="-1" role="dialog" id="conf">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Are you sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>The user will have to create a new account</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="{% url 'delete_user' user_id=user.id club_id=current_club.id%}" style="color: aliceblue;" button class="btn btn-primary">Continue</a>
+      </div>
+    </div>
+  </div>
+</div>

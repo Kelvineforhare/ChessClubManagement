@@ -1,0 +1,74 @@
+<table class="table">
+  {% if not user_membership.is_applicant or is_owner %}
+    {% if owner_display %}
+      <tr>
+        <td>
+          <img src="{{ current_club.owner.mini_gravatar }}" alt="Gravatar of {{ current_club.owner.username }}" class="rounded-circle" >
+        </td>
+        <td><a href="{% url 'show_user' user_id=current_club.owner.pk club_id=current_club.id %}">{{ current_club.owner.first_name }} {{ current_club.owner.last_name }}</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    {% endif %}
+    {% for membership in membership_list %}
+      <tr>
+        <td>
+          <img src="{{ membership.user.mini_gravatar }}" alt="Gravatar of {{ user.username }}" class="rounded-circle" >
+        </td>
+        <td><a href="{% url 'show_user' user_id=membership.user.id club_id=current_club.id %}">{{ membership.user.first_name }} {{ membership.user.last_name }}</a></td>
+        <td>
+          <!-- The button to transfer the ownership -->
+          <form action="{% url 'owner_transfer' user_id=membership.user.id club_id=current_club.id %}" method="get">
+            {% if is_owner and membership.is_officer %}
+              <button class="btn btn-primary">Transfer Ownership</button>
+            {% endif %}
+          </form>
+        </td>
+        <td>
+          <!-- The button to promote member -->
+          <form action="{% url 'promote_club_member' user_id=membership.user.id club_id=current_club.id %}" method="get">
+            {% if is_owner and membership.is_member %}
+              <button class="btn btn-primary">Promote</button>
+            {% endif %}
+          </form>
+          <!-- The button to demote officer -->
+          <form action="{% url 'demote_club_officer' user_id=membership.user.id club_id=current_club.id %}" method="get">
+            {% if is_owner and membership.is_officer %}
+              <button class="btn btn-primary">Demote</button>
+            {% endif %}
+          </form>
+        </td>
+        <td>
+          <!-- The button to accept an applicant -->
+          <form action="{% url 'accept_club_applicant' user_id=membership.user.id club_id=current_club.id %}" method="get">
+            {% if is_owner and membership.is_applicant or user_membership.is_officer and membership.is_applicant %}
+              <button class="btn btn-primary">Accept</button>
+            {% endif %}
+          </form>
+        </td>
+        <td>
+          <!-- The button to reject an applicant -->
+          <form action="{% url 'delete_user' user_id=membership.user.id club_id=current_club.id%}" method="get">
+            {% if is_owner and membership.is_applicant or user_membership.is_officer and membership.is_applicant %}
+              <button class="btn btn-primary">Reject</button>
+            {% endif %}
+          </form>
+         </td>
+         <td>
+          <!-- The button to add back deleted user-->
+          {% if is_owner and membership.is_removed_user or user_membership.is_officer and membership.is_removed_user %}
+            <form action="{% url 'reinstate_deleted_user' user_id=membership.user.id club_id=current_club.id %}" method="get">
+                <button class="btn btn-primary">Reinstate</button>
+            </form>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    {% if not membership_list and not owner_display%}
+      <h3>No users here!</h3>
+    {% endif %}
+  {% endif %}
+</table>
