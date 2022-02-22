@@ -3,7 +3,7 @@
 ## Team members
 The members of the team are:
 - Pradeep Shah
-- Kesiena Eforhare
+- Kesiena Kelvin Eforhare
 - Yuchen Wang
 - Hind Alhokair
 - Yusuf Yacoobali
